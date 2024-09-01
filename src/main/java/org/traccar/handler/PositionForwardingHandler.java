@@ -126,9 +126,13 @@ public class PositionForwardingHandler extends BasePositionHandler {
     @Override
     public void handlePosition(Position position, Callback callback) {
         if (positionForwarder != null) {
+            Device device = cacheManager.getObject(Device.class, position.getDeviceId());
+            position.set(Position.KEY_UNIQUE_ID, device.getUniqueId());
+
             PositionData positionData = new PositionData();
+
             positionData.setPosition(position);
-            positionData.setDevice(cacheManager.getObject(Device.class, position.getDeviceId()));
+            positionData.setDevice(device);
             new AsyncRequestAndCallback(positionData).send();
         }
         callback.processed(false);

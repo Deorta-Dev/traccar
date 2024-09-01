@@ -148,10 +148,13 @@ public class NotificationManager {
 
     private void forwardEvent(Event event, Position position) {
         if (eventForwarder != null) {
+            Device device = cacheManager.getObject(Device.class, event.getDeviceId());
+            event.set(Event.KEY_UNIQUE_ID, device.getUniqueId());
+
             EventData eventData = new EventData();
             eventData.setEvent(event);
             eventData.setPosition(position);
-            eventData.setDevice(cacheManager.getObject(Device.class, event.getDeviceId()));
+            eventData.setDevice(device);
             if (event.getGeofenceId() != 0) {
                 eventData.setGeofence(cacheManager.getObject(Geofence.class, event.getGeofenceId()));
             }

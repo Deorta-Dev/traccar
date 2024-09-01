@@ -40,6 +40,9 @@ public class Event extends Message {
 
     public static final String ALL_EVENTS = "allEvents";
 
+    public static final String KEY_UNIQUE_ID = "uniqueId";
+
+
     public static final String TYPE_COMMAND_RESULT = "commandResult";
 
     public static final String TYPE_DEVICE_ONLINE = "deviceOnline";
