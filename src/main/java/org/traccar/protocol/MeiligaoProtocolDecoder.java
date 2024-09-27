@@ -454,13 +454,12 @@ public class MeiligaoProtocolDecoder extends BaseProtocolDecoder {
 
         } else if (command == MSG_RETRANSMISSION) {
             return decodeRetransmission(buf, deviceSession);
-        }else if(command == MSG_OUTPUT_CONTROL_1 || command == MSG_OUTPUT_CONTROL_2){
-            position.set(Position.KEY_RESULT, true);
-
-            getLastLocation(position, null);
-
-            return position;
         } else {
+            if (command == MSG_OUTPUT_CONTROL_1 || command == MSG_OUTPUT_CONTROL_2) {
+                position.set(Position.KEY_RESULT, true);
+
+                getLastLocation(position, null);
+            }
 
             if (command == MSG_ALARM) {
                 short alarmCode = buf.readUnsignedByte();
@@ -502,6 +501,8 @@ public class MeiligaoProtocolDecoder extends BaseProtocolDecoder {
                 case MSG_OBD_RT -> decodeObd(position, sentence);
                 case MSG_OBD_RTA -> decodeObdA(position, sentence);
                 case MSG_DTC -> decodeDtc(position, sentence);
+                case MSG_OUTPUT_CONTROL_1 -> position;
+                case MSG_OUTPUT_CONTROL_2 -> position;
                 default -> null;
             };
 
