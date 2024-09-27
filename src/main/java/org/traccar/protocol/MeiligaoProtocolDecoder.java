@@ -437,6 +437,10 @@ public class MeiligaoProtocolDecoder extends BaseProtocolDecoder {
             return null;
         }
 
+        Position position = new Position(getProtocolName());
+
+        position.setDeviceId(deviceSession.getDeviceId());
+
         if (command == MSG_DATA_PHOTO) {
 
             byte imageIndex = buf.readByte();
@@ -449,14 +453,14 @@ public class MeiligaoProtocolDecoder extends BaseProtocolDecoder {
             return null;
 
         } else if (command == MSG_RETRANSMISSION) {
-
             return decodeRetransmission(buf, deviceSession);
+        }else if(command == MSG_OUTPUT_CONTROL_1 || command == MSG_OUTPUT_CONTROL_2){
+            position.set(Position.KEY_RESULT, true);
 
+            getLastLocation(position, null);
+
+            return position;
         } else {
-
-            Position position = new Position(getProtocolName());
-
-            position.setDeviceId(deviceSession.getDeviceId());
 
             if (command == MSG_ALARM) {
                 short alarmCode = buf.readUnsignedByte();
