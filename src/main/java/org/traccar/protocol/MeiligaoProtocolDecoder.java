@@ -501,8 +501,7 @@ public class MeiligaoProtocolDecoder extends BaseProtocolDecoder {
                 case MSG_OBD_RT -> decodeObd(position, sentence);
                 case MSG_OBD_RTA -> decodeObdA(position, sentence);
                 case MSG_DTC -> decodeDtc(position, sentence);
-                case MSG_OUTPUT_CONTROL_1 -> position;
-                case MSG_OUTPUT_CONTROL_2 -> position;
+                case MSG_OUTPUT_CONTROL_1, MSG_OUTPUT_CONTROL_2 -> position;
                 default -> null;
             };
 
